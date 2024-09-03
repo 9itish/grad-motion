@@ -1,4 +1,4 @@
 *.js linguist-language=JavaScript
-*.php linguist-language=PHP
-*.html linguist-language=HTML
+*.php linguist-detectable=false
+*.html linguist-detectable=false
 *.md linguist-language=Markdown
