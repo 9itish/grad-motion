@@ -17,7 +17,9 @@ class AnimatedGradient {
     this.#element = element;
     this.#colors = colors;
 
-    this.#styleOptions = this.createStyleOptionsProxy(styleOptions = {});
+    this.#styleOptions = this.createStyleOptionsProxy(styleOptions = {
+      animDuration: 30
+    });
 
     this.#classes = classes || "";
     this.#tickSpeed = tickSpeed || 1;
@@ -129,20 +131,20 @@ class AnimatedGradient {
   }
 
   setUpBackgroundDiv() {
-    let bgDiv = this.#element.querySelector(".ngrad-background");
 
-    if (bgDiv) {
-      bgDiv.remove();
+    let bgWrapperDiv = this.#element.querySelector(".ngrad-wrapper");
+
+    if (bgWrapperDiv) {
+      bgWrapperDiv.remove();
     }
+
+    const backgroundWrapperDiv = document.createElement("div");
+
+    backgroundWrapperDiv.className = "ngrad-wrapper";
 
     const backgroundDiv = document.createElement("div");
 
     backgroundDiv.className = "ngrad-background";
-    backgroundDiv.style.position = "absolute";
-    backgroundDiv.style.top = "0";
-    backgroundDiv.style.left = "0";
-    backgroundDiv.style.width = "100%";
-    backgroundDiv.style.height = "100%";
 
     if (this.#classes) {
       if (this.#classes.includes("nbg-move-lr") || this.#classes.includes("nbg-move-rl")) {
@@ -167,7 +169,15 @@ class AnimatedGradient {
       backgroundDiv.className = `ngrad-background ${this.#classes}`;
     }
 
-    this.#element.appendChild(backgroundDiv);
+    backgroundWrapperDiv.appendChild(backgroundDiv);
+
+    this.#element.appendChild(backgroundWrapperDiv);
+
+    const computedElementStyles = window.getComputedStyle(this.#element);
+
+    if (computedElementStyles.position === 'static') {
+      this.#element.style.position = 'relative';
+    }
   }
 
   applyGradient() {
