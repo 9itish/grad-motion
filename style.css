@@ -8,7 +8,9 @@
 
 .ngrad-wrapper {
     overflow: hidden;
+    z-index: -1;
 }
+
 
 .nbg-move-lr {
     animation: moveLR var(--anim-duration) linear infinite;
