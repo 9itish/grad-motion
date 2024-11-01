@@ -1,4 +1,4 @@
-.ngrad-wrapper, .ngrad-background {
+.ngrad-wrapper, .ngrad-background, .ngrad-overlay {
     position: absolute;
     top: 0;
     left: 0;
@@ -9,6 +9,10 @@
 .ngrad-wrapper {
     overflow: hidden;
     z-index: -1;
+}
+
+.ngrad-overlay {
+    background: var(--bg-string);
 }
 
 

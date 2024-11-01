@@ -3,11 +3,12 @@ class AnimatedGradient {
   #colors;
   #styleOptions;
   #tickSpeed;
+  #overlay;
   #classes;
 
   #ticks;
 
-  constructor({ element, colors, styleOptions, tickSpeed, classes }) {
+  constructor({ element, colors, styleOptions, tickSpeed, overlay, classes }) {
     if (new.target === AnimatedGradient) {
       throw new Error(
         "Cannot instantiate an abstract class directly. Please extend this class and implement the required methods."
@@ -21,8 +22,16 @@ class AnimatedGradient {
       animDuration: 30
     });
 
-    this.#classes = classes || "";
+    console.log(overlay);
+
     this.#tickSpeed = tickSpeed || 1;
+    this.#overlay = overlay || {
+      isPresent: false
+    };
+
+    console.log(this.#overlay);
+
+    this.#classes = classes || "";
 
     this.#ticks = 0;
   }
@@ -84,7 +93,7 @@ class AnimatedGradient {
 
   updateAnimationDuration() {
     let backgroundDiv = this.#element.querySelector(".ngrad-background");
-    let animDuration = this.#styleOptions.animDuration || 30;
+    let animDuration = this.#styleOptions.animDuration;
     backgroundDiv.style.setProperty(`--anim-duration`, `${animDuration}s`);
   }
 
@@ -139,12 +148,13 @@ class AnimatedGradient {
     }
 
     const backgroundWrapperDiv = document.createElement("div");
-
     backgroundWrapperDiv.className = "ngrad-wrapper";
 
     const backgroundDiv = document.createElement("div");
-
     backgroundDiv.className = "ngrad-background";
+
+    const overlayDiv = document.createElement("div");
+    overlayDiv.className = "ngrad-overlay";
 
     if (this.#classes) {
       if (this.#classes.includes("nbg-move-lr") || this.#classes.includes("nbg-move-rl")) {
@@ -171,12 +181,23 @@ class AnimatedGradient {
 
     backgroundWrapperDiv.appendChild(backgroundDiv);
 
+    if(this.#overlay.isPresent) {
+      backgroundWrapperDiv.appendChild(overlayDiv);
+    }
+
     this.#element.appendChild(backgroundWrapperDiv);
 
     const computedElementStyles = window.getComputedStyle(this.#element);
 
     if (computedElementStyles.position === 'static') {
       this.#element.style.position = 'relative';
+    }
+
+    if(this.#overlay.background) {  
+      overlayDiv.style.setProperty(
+        `--bg-string`,
+        `${this.#overlay.background}`
+      );
     }
   }
 
@@ -666,8 +687,8 @@ class NeatThreeTriangles extends AnimatedGradient {
 
 class NeatZigZag extends AnimatedGradient {
 
-  constructor({ element, colors, style, styleOptions, tickSpeed, classes }) {
-    super({ element, colors, style, styleOptions, tickSpeed, classes });
+  constructor({ element, colors, style, styleOptions, tickSpeed,  overlay, classes }) {
+    super({ element, colors, style, styleOptions, tickSpeed, overlay, classes });
 
     this.styleOptions = {
       bgPosMultipliers: [-0.5, 0, -0.5, 0, 0, 0, 0, 0],
