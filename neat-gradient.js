@@ -18,18 +18,16 @@ class AnimatedGradient {
     this.#element = element;
     this.#colors = colors;
 
-    this.#styleOptions = this.createStyleOptionsProxy(styleOptions = {
-      animDuration: 30
-    });
-
-    console.log(overlay);
+    this.#styleOptions = this.createStyleOptionsProxy(
+      (styleOptions = {
+        animDuration: 30,
+      })
+    );
 
     this.#tickSpeed = tickSpeed || 1;
     this.#overlay = overlay || {
-      isPresent: false
+      isPresent: false,
     };
-
-    console.log(this.#overlay);
 
     this.#classes = classes || "";
 
@@ -40,10 +38,8 @@ class AnimatedGradient {
     const self = this;
     let applyingGradient = false;
 
-
     return new Proxy(styleOptions, {
       set(target, property, value) {
-
         target[property] = value;
 
         if (!applyingGradient) {
@@ -52,7 +48,7 @@ class AnimatedGradient {
           applyingGradient = false;
         }
         return true;
-      }
+      },
     });
   }
 
@@ -63,11 +59,11 @@ class AnimatedGradient {
   set colors(colorArray) {
     this.#colors = colorArray;
 
-    if(colorArray.length == 2) {
+    if (colorArray.length == 2) {
       this.#styleOptions.triColor = false;
     }
 
-    if(colorArray.length == 3) {
+    if (colorArray.length == 3) {
       this.#styleOptions.triColor = true;
     }
 
@@ -110,7 +106,10 @@ class AnimatedGradient {
   }
 
   set styleOptions(styleOptions) {
-    this.#styleOptions = this.createStyleOptionsProxy({...this.#styleOptions, ...styleOptions});
+    this.#styleOptions = this.createStyleOptionsProxy({
+      ...this.#styleOptions,
+      ...styleOptions,
+    });
 
     this.applyGradient();
   }
@@ -140,7 +139,6 @@ class AnimatedGradient {
   }
 
   setUpBackgroundDiv() {
-
     let bgWrapperDiv = this.#element.querySelector(".ngrad-wrapper");
 
     if (bgWrapperDiv) {
@@ -157,16 +155,28 @@ class AnimatedGradient {
     overlayDiv.className = "ngrad-overlay";
 
     if (this.#classes) {
-      if (this.#classes.includes("nbg-move-lr") || this.#classes.includes("nbg-move-rl")) {
-        if (this.gradientType() == 'NeatLinear' || this.gradientType() == 'NeatAbstract') {
+      if (
+        this.#classes.includes("nbg-move-lr") ||
+        this.#classes.includes("nbg-move-rl")
+      ) {
+        if (
+          this.gradientType() == "NeatLinear" ||
+          this.gradientType() == "NeatAbstract"
+        ) {
           this.#classes += " ngrad-big";
           backgroundDiv.style.width = "1000%";
         } else {
           backgroundDiv.style.width = "200%";
         }
       }
-      if (this.#classes.includes("nbg-move-tb") || this.#classes.includes("nbg-move-bt")) {
-        if (this.gradientType() == 'NeatLinear' || this.gradientType() == 'NeatAbstract') {
+      if (
+        this.#classes.includes("nbg-move-tb") ||
+        this.#classes.includes("nbg-move-bt")
+      ) {
+        if (
+          this.gradientType() == "NeatLinear" ||
+          this.gradientType() == "NeatAbstract"
+        ) {
           this.#classes += " ngrad-big";
           backgroundDiv.style.height = "1000%";
         } else {
@@ -181,7 +191,7 @@ class AnimatedGradient {
 
     backgroundWrapperDiv.appendChild(backgroundDiv);
 
-    if(this.#overlay.isPresent) {
+    if (this.#overlay.isPresent) {
       backgroundWrapperDiv.appendChild(overlayDiv);
     }
 
@@ -189,11 +199,11 @@ class AnimatedGradient {
 
     const computedElementStyles = window.getComputedStyle(this.#element);
 
-    if (computedElementStyles.position === 'static') {
-      this.#element.style.position = 'relative';
+    if (computedElementStyles.position === "static") {
+      this.#element.style.position = "relative";
     }
 
-    if(this.#overlay.background) {  
+    if (this.#overlay.background) {
       overlayDiv.style.setProperty(
         `--bg-string`,
         `${this.#overlay.background}`
@@ -214,7 +224,10 @@ class AnimatedGradient {
 
       if (Array.isArray(baseSize)) {
         if (this.#styleOptions.seamless) {
-          if (backgroundDiv.classList.contains("nbg-move-lr") || backgroundDiv.classList.contains("nbg-move-rl")) {
+          if (
+            backgroundDiv.classList.contains("nbg-move-lr") ||
+            backgroundDiv.classList.contains("nbg-move-rl")
+          ) {
             let origBase = baseSize[0];
             baseSize[0] = Number(
               (backgroundDiv.offsetWidth / this.#styleOptions.parts).toFixed(2)
@@ -232,7 +245,10 @@ class AnimatedGradient {
         backgroundDiv.style.backgroundSize = `${baseSize[0]}px ${baseSize[1]}px`;
       } else {
         if (this.#styleOptions.seamless) {
-          if (backgroundDiv.classList.contains("nbg-move-lr") || backgroundDiv.classList.contains("nbg-move-rl")) {
+          if (
+            backgroundDiv.classList.contains("nbg-move-lr") ||
+            backgroundDiv.classList.contains("nbg-move-rl")
+          ) {
             baseSize = Number(
               (
                 backgroundDiv.offsetWidth /
@@ -293,12 +309,7 @@ class AnimatedGradient {
             );
         }
 
-        if (
-          [
-            "NeatAbstract",
-            "NeatPolkaDots"
-          ].includes(this.gradientType())
-        ) {
+        if (["NeatAbstract", "NeatPolkaDots"].includes(this.gradientType())) {
           this.#element
             .querySelector(".ngrad-background")
             .style.setProperty(
@@ -351,9 +362,13 @@ function isArrayOfArrays(variable) {
 }
 
 class NeatLinear extends AnimatedGradient {
-  constructor({ element, colors, style, styleOptions, tickSpeed, classes }) {
-    super({ element, colors, style, styleOptions, tickSpeed, classes });
+  constructor(config) {
+    // First, we get styleOptions form the passed configuration.
+    const { styleOptions = {} } = config;
 
+    super(config);
+
+    // These style options are then merged with the styleOptions of the derived class.
     this.styleOptions = {
       angle: 0,
       updateVariable: false,
@@ -393,14 +408,16 @@ class NeatLinear extends AnimatedGradient {
 }
 
 class NeatAbstract extends AnimatedGradient {
-  constructor({ element, colors, style, styleOptions, tickSpeed, classes }) {
-    super({ element, colors, style, styleOptions, tickSpeed, classes });
+  constructor(config) {
+    const { styleOptions = {} } = config;
+
+    super(config);
 
     this.styleOptions = {
       centers: [0, 0, -30, 30, 100, 100],
-      blendMode: 'difference',
+      blendMode: "difference",
       updateVariable: false,
-      ...styleOptions
+      ...styleOptions,
     };
   }
 
@@ -418,7 +435,6 @@ class NeatAbstract extends AnimatedGradient {
     let updateVariable = this.styleOptions.updateVariable;
     let blendMode = this.styleOptions.blendMode;
 
-
     backgroundDiv.style.backgroundBlendMode = blendMode;
 
     if (updateVariable) {
@@ -433,9 +449,49 @@ class NeatAbstract extends AnimatedGradient {
     }
 
     if (updateVariable) {
-      gradientString += `radial-gradient(circle at var(--first-stop), ${gradientColors[0]}, ${gradientColors[1]}, ${gradientColors[2]}, ${gradientColors[3]}, ${gradientColors[4]}, ${gradientColors[5]}), conic-gradient(from 0deg at ${centers[2]}% ${centers[3]}%, ${gradientColors[0]}, ${gradientColors[1]}, ${gradientColors[2]}, ${gradientColors[3]}, ${gradientColors[4]}, ${gradientColors[5]}), conic-gradient(from 0deg at ${100 + Math.abs(centers[2])}% ${100 - centers[3]}%, ${gradientColors[0]}, ${gradientColors[1]}, ${gradientColors[2]}, ${gradientColors[3]}, ${gradientColors[4]}, ${gradientColors[5]}), radial-gradient(circle at var(--second-stop), ${gradientColors[0]}, ${gradientColors[1]}, ${gradientColors[2]}, ${gradientColors[3]}, ${gradientColors[4]}, ${gradientColors[5]})`;
+      gradientString += `radial-gradient(circle at var(--first-stop), ${
+        gradientColors[0]
+      }, ${gradientColors[1]}, ${gradientColors[2]}, ${gradientColors[3]}, ${
+        gradientColors[4]
+      }, ${gradientColors[5]}), conic-gradient(from 0deg at ${centers[2]}% ${
+        centers[3]
+      }%, ${gradientColors[0]}, ${gradientColors[1]}, ${gradientColors[2]}, ${
+        gradientColors[3]
+      }, ${gradientColors[4]}, ${
+        gradientColors[5]
+      }), conic-gradient(from 0deg at ${100 + Math.abs(centers[2])}% ${
+        100 - centers[3]
+      }%, ${gradientColors[0]}, ${gradientColors[1]}, ${gradientColors[2]}, ${
+        gradientColors[3]
+      }, ${gradientColors[4]}, ${
+        gradientColors[5]
+      }), radial-gradient(circle at var(--second-stop), ${gradientColors[0]}, ${
+        gradientColors[1]
+      }, ${gradientColors[2]}, ${gradientColors[3]}, ${gradientColors[4]}, ${
+        gradientColors[5]
+      })`;
     } else {
-      gradientString += `radial-gradient(circle at ${centers[0]}% ${centers[1]}%, ${gradientColors[0]}, ${gradientColors[1]}, ${gradientColors[2]}, ${gradientColors[3]}, ${gradientColors[4]}, ${gradientColors[5]}), conic-gradient(from 0deg at ${centers[2]}% ${centers[3]}%, ${gradientColors[0]}, ${gradientColors[1]}, ${gradientColors[2]}, ${gradientColors[3]}, ${gradientColors[4]}, ${gradientColors[5]}), conic-gradient(from 0deg at ${100 + Math.abs(centers[2])}% ${100 - centers[3]}%, ${gradientColors[0]}, ${gradientColors[1]}, ${gradientColors[2]}, ${gradientColors[3]}, ${gradientColors[4]}, ${gradientColors[5]}), radial-gradient(circle at ${centers[4]}% ${centers[5]}%, ${gradientColors[0]}, ${gradientColors[1]}, ${gradientColors[2]}, ${gradientColors[3]}, ${gradientColors[4]}, ${gradientColors[5]})`;
+      gradientString += `radial-gradient(circle at ${centers[0]}% ${
+        centers[1]
+      }%, ${gradientColors[0]}, ${gradientColors[1]}, ${gradientColors[2]}, ${
+        gradientColors[3]
+      }, ${gradientColors[4]}, ${
+        gradientColors[5]
+      }), conic-gradient(from 0deg at ${centers[2]}% ${centers[3]}%, ${
+        gradientColors[0]
+      }, ${gradientColors[1]}, ${gradientColors[2]}, ${gradientColors[3]}, ${
+        gradientColors[4]
+      }, ${gradientColors[5]}), conic-gradient(from 0deg at ${
+        100 + Math.abs(centers[2])
+      }% ${100 - centers[3]}%, ${gradientColors[0]}, ${gradientColors[1]}, ${
+        gradientColors[2]
+      }, ${gradientColors[3]}, ${gradientColors[4]}, ${
+        gradientColors[5]
+      }), radial-gradient(circle at ${centers[4]}% ${centers[5]}%, ${
+        gradientColors[0]
+      }, ${gradientColors[1]}, ${gradientColors[2]}, ${gradientColors[3]}, ${
+        gradientColors[4]
+      }, ${gradientColors[5]})`;
     }
 
     return gradientString;
@@ -443,8 +499,10 @@ class NeatAbstract extends AnimatedGradient {
 }
 
 class NeatUpDownTriangles extends AnimatedGradient {
-  constructor({ element, colors, style, styleOptions, tickSpeed, classes }) {
-    super({ element, colors, style, styleOptions, tickSpeed, classes });
+  constructor(config) {
+    const { styleOptions = {} } = config;
+
+    super(config);
 
     this.styleOptions = {
       baseSize: 100,
@@ -455,7 +513,7 @@ class NeatUpDownTriangles extends AnimatedGradient {
       triColor: false,
       seamless: false,
       ratio: 1,
-      ...styleOptions
+      ...styleOptions,
     };
   }
 
@@ -476,12 +534,12 @@ class NeatUpDownTriangles extends AnimatedGradient {
     const backgroundDiv = this.element.querySelector(".ngrad-background");
 
     if (variant == "opposite-stripes") {
-      this.styleOptions.bgPosMultipliers = [-1/3, 0, 1, 0, -1/3, 0, 1, 0];
+      this.styleOptions.bgPosMultipliers = [-1 / 3, 0, 1, 0, -1 / 3, 0, 1, 0];
       this.styleOptions.ratio = 2.8;
     }
 
     if (variant == "stars") {
-      this.styleOptions.bgPosMultipliers = [0, -1/3, 0, -1/3, 0, 0, 0, 0];
+      this.styleOptions.bgPosMultipliers = [0, -1 / 3, 0, -1 / 3, 0, 0, 0, 0];
     }
 
     if (variant == "aligned") {
@@ -489,7 +547,6 @@ class NeatUpDownTriangles extends AnimatedGradient {
     }
 
     let bgPosMultipliers = this.styleOptions.bgPosMultipliers;
-
 
     let bgPositions = [
       `${bgPosMultipliers[0] * baseSize}px ${bgPosMultipliers[1] * baseSize}px`,
@@ -525,15 +582,16 @@ class NeatUpDownTriangles extends AnimatedGradient {
     } else {
       gradientString += `, ${gradientColors[2]}66`;
     }
-    
+
     return gradientString;
   }
 }
 
-
 class NeatThreeTriangles extends AnimatedGradient {
-  constructor({ element, colors, style, styleOptions, tickSpeed, classes }) {
-    super({ element, colors, style, styleOptions, tickSpeed, classes });
+  constructor(config) {
+    const { styleOptions = {} } = config;
+
+    super(config);
 
     this.styleOptions = {
       baseSize: 60,
@@ -572,11 +630,11 @@ class NeatThreeTriangles extends AnimatedGradient {
       baseSize = this.element.offsetWidth / this.styleOptions.parts;
     }
 
-    if(variant == 'geometric-bands') {
+    if (variant == "geometric-bands") {
       bands = [4, 10, 18, 24, 40, 44];
     }
 
-    if(variant == 'geometric-half-bands') {
+    if (variant == "geometric-half-bands") {
       bands = [4, 10, 18, 24, 40, 44];
       bgPosMultipliers = [0, 0, 0, 0.5];
     }
@@ -600,24 +658,28 @@ class NeatThreeTriangles extends AnimatedGradient {
     }
 
     gradientString = `linear-gradient(${angle[0]}deg, ${
-        gradientColors[0]
-      } var(--first-stop), transparent calc(var(--first-stop) + 0.5%) ${
-        bands[1]
-      }%, ${gradientColors[0]} ${
-        bands[1] + 0.5
-      }% var(--second-stop), transparent var(--second-stop) ${bands[3]}%, ${
-        gradientColors[0]
-      } ${bands[3] + 0.5}% var(--third-stop), transparent calc(var(--third-stop) + 0.5%)) ${
-        bgPositions[0]
-      }, linear-gradient(${angle[1]}deg, ${
-        gradientColors[0]
-      } var(--first-stop), transparent var(--first-stop) ${bands[1]}%, ${
-        gradientColors[0]
-      } ${bands[1] + 0.5}% var(--second-stop), transparent var(--second-stop) ${
-        bands[3]
-      }%, ${gradientColors[0]} ${
-        bands[3] + 0.5
-      }% var(--third-stop), transparent calc(var(--third-stop) + 0.5%)) ${bgPositions[1]}`;
+      gradientColors[0]
+    } var(--first-stop), transparent calc(var(--first-stop) + 0.5%) ${
+      bands[1]
+    }%, ${gradientColors[0]} ${
+      bands[1] + 0.5
+    }% var(--second-stop), transparent var(--second-stop) ${bands[3]}%, ${
+      gradientColors[0]
+    } ${
+      bands[3] + 0.5
+    }% var(--third-stop), transparent calc(var(--third-stop) + 0.5%)) ${
+      bgPositions[0]
+    }, linear-gradient(${angle[1]}deg, ${
+      gradientColors[0]
+    } var(--first-stop), transparent var(--first-stop) ${bands[1]}%, ${
+      gradientColors[0]
+    } ${bands[1] + 0.5}% var(--second-stop), transparent var(--second-stop) ${
+      bands[3]
+    }%, ${gradientColors[0]} ${
+      bands[3] + 0.5
+    }% var(--third-stop), transparent calc(var(--third-stop) + 0.5%)) ${
+      bgPositions[1]
+    }`;
 
     if (variant == "band-shades") {
       gradientString = `linear-gradient(${angle[0]}deg, ${
@@ -686,9 +748,10 @@ class NeatThreeTriangles extends AnimatedGradient {
 }
 
 class NeatZigZag extends AnimatedGradient {
+  constructor(config) {
+    const { styleOptions = {} } = config;
 
-  constructor({ element, colors, style, styleOptions, tickSpeed,  overlay, classes }) {
-    super({ element, colors, style, styleOptions, tickSpeed, overlay, classes });
+    super(config);
 
     this.styleOptions = {
       bgPosMultipliers: [-0.5, 0, -0.5, 0, 0, 0, 0, 0],
@@ -697,7 +760,7 @@ class NeatZigZag extends AnimatedGradient {
       translucent: false,
       triColor: false,
       updateVariable: false,
-      variant: '',
+      variant: "",
       ...styleOptions,
     };
   }
@@ -707,7 +770,6 @@ class NeatZigZag extends AnimatedGradient {
   }
 
   generateGradientString() {
-
     let gradientString = "";
     let gradientColors = setUpGradientColors(this.colors);
 
@@ -733,7 +795,7 @@ class NeatZigZag extends AnimatedGradient {
       bgPosMultipliers = [0, 0, 0, 0, 0, -0.5, 0, 0.5];
     }
 
-    if(this.styleOptions.variant == "square-diagonals") {
+    if (this.styleOptions.variant == "square-diagonals") {
       bgPosMultipliers = [0, -0.75, 0, 0.25, 0, -0.75, 0, 0.25];
     }
 
@@ -791,9 +853,10 @@ class NeatZigZag extends AnimatedGradient {
 }
 
 class NeatPolkaDots extends AnimatedGradient {
+  constructor(config) {
+    const { styleOptions = {} } = config;
 
-  constructor({ element, colors, style, styleOptions, tickSpeed, classes }) {
-    super({ element, colors, style, styleOptions, tickSpeed, classes });
+    super(config);
 
     this.styleOptions = {
       bgPosMultipliers: [0, 0, 0.5, 0.5],
@@ -828,7 +891,7 @@ class NeatPolkaDots extends AnimatedGradient {
     ];
 
     if (this.styleOptions.updateVariable) {
-      if(this.styleOptions.rings) {
+      if (this.styleOptions.rings) {
         backgroundDiv.style.setProperty(
           `--first-stop`,
           `calc(var(--tick-sin) * ${radii[0] - 10}%)`
@@ -848,8 +911,8 @@ class NeatPolkaDots extends AnimatedGradient {
         );
       }
     } else {
-      if(this.styleOptions.rings) {
-        backgroundDiv.style.setProperty(`--first-stop`, `${radii[0] - 10 }%`);
+      if (this.styleOptions.rings) {
+        backgroundDiv.style.setProperty(`--first-stop`, `${radii[0] - 10}%`);
         backgroundDiv.style.setProperty(`--second-stop`, `${radii[1] - 10}%`);
       } else {
         backgroundDiv.style.setProperty(`--first-stop`, `${radii[0]}%`);
@@ -858,25 +921,13 @@ class NeatPolkaDots extends AnimatedGradient {
     }
 
     if (rings) {
-      gradientString += `radial-gradient(${
-        gradientColors[0]
-      } var(--first-stop), ${gradientColors[1]} calc(var(--first-stop) + 1%), ${
-        gradientColors[1]
-      } calc(var(--first-stop) + 15%), transparent calc(var(--first-stop) + 16%)) ${bgPositions[0]}, radial-gradient(${
-        gradientColors[1]
-      } var(--second-stop), ${
-        gradientColors[0]
-      } calc(var(--second-stop) + 1%), ${
-        gradientColors[0]
-      } calc(var(--second-stop) + 15%), transparent calc(var(--second-stop) + 16%)) ${bgPositions[1]}`;
+      gradientString += `radial-gradient(${gradientColors[0]} var(--first-stop), ${gradientColors[1]} calc(var(--first-stop) + 1%), ${gradientColors[1]} calc(var(--first-stop) + 15%), transparent calc(var(--first-stop) + 16%)) ${bgPositions[0]}, radial-gradient(${gradientColors[1]} var(--second-stop), ${gradientColors[0]} calc(var(--second-stop) + 1%), ${gradientColors[0]} calc(var(--second-stop) + 15%), transparent calc(var(--second-stop) + 16%)) ${bgPositions[1]}`;
     } else {
-      gradientString += `radial-gradient(${
-        gradientColors[0]
-      } var(--first-stop), transparent calc(var(--first-stop) + 2%)) ${bgPositions[0]}, radial-gradient(${gradientColors[1]} var(--second-stop), transparent calc(var(--second-stop) + 2%)) ${bgPositions[1]}`;
+      gradientString += `radial-gradient(${gradientColors[0]} var(--first-stop), transparent calc(var(--first-stop) + 2%)) ${bgPositions[0]}, radial-gradient(${gradientColors[1]} var(--second-stop), transparent calc(var(--second-stop) + 2%)) ${bgPositions[1]}`;
     }
 
     if (!triColor) {
-      if(this.styleOptions.backgroundBlend) {
+      if (this.styleOptions.backgroundBlend) {
         gradientString += `, ${gradientColors[0]}`;
       } else {
         gradientString += `, ${gradientColors[0]}66`;
@@ -892,14 +943,15 @@ class NeatPolkaDots extends AnimatedGradient {
 }
 
 class NeatBricks extends AnimatedGradient {
+  constructor(config) {
+    const { styleOptions = {} } = config;
 
-  constructor({ element, colors, style, styleOptions, tickSpeed, classes }) {
-    super({ element, colors, style, styleOptions, tickSpeed, classes });
+    super(config);
 
     this.styleOptions = {
       baseSize: 100,
       quadColors: false,
-      brickOutline: '#000',
+      brickOutline: "#000",
       ...styleOptions,
     };
   }
@@ -913,29 +965,28 @@ class NeatBricks extends AnimatedGradient {
     let quadColors = this.styleOptions.quadColors;
     let brickOutline = this.styleOptions.brickOutline;
 
-    
     let gradientString = "";
     let gradientColors = setUpGradientColors(this.colors);
 
-    if(quadColors) {
+    if (quadColors) {
       gradientString += `linear-gradient(335deg, ${gradientColors[0]} ${
-      (baseSize * 23) / 58
-    }px, transparent ${(baseSize * 23) / 58}px) 0px ${(baseSize * 2) / 58}px,
+        (baseSize * 23) / 58
+      }px, transparent ${(baseSize * 23) / 58}px) 0px ${(baseSize * 2) / 58}px,
 linear-gradient(155deg, ${gradientColors[1]} ${
-      (baseSize * 23) / 58
-    }px, transparent ${(baseSize * 23) / 58}px) ${(baseSize * 4) / 58}px ${
-      (baseSize * 35) / 58
-    }px,
+        (baseSize * 23) / 58
+      }px, transparent ${(baseSize * 23) / 58}px) ${(baseSize * 4) / 58}px ${
+        (baseSize * 35) / 58
+      }px,
 linear-gradient(335deg, ${gradientColors[2]} ${
-      (baseSize * 23) / 58
-    }px, transparent ${(baseSize * 23) / 58}px) ${(baseSize * 29) / 58}px ${
-      (baseSize * 31) / 58
-    }px,
+        (baseSize * 23) / 58
+      }px, transparent ${(baseSize * 23) / 58}px) ${(baseSize * 29) / 58}px ${
+        (baseSize * 31) / 58
+      }px,
 linear-gradient(155deg, ${gradientColors[3]} ${
-      (baseSize * 23) / 58
-    }px, transparent ${(baseSize * 23) / 58}px) ${(baseSize * 34) / 58}px ${
-      (baseSize * 6) / 58
-    }px, ${brickOutline}`;
+        (baseSize * 23) / 58
+      }px, transparent ${(baseSize * 23) / 58}px) ${(baseSize * 34) / 58}px ${
+        (baseSize * 6) / 58
+      }px, ${brickOutline}`;
     } else {
       gradientString += `linear-gradient(335deg, ${gradientColors[0]} ${
         (baseSize * 23) / 58
