@@ -1,0 +1,46 @@
+{
+  "name": "neat-gradients",
+  "version": "1.0.0",
+  "description": "\"A JavaScript library to help you create animated background patterns using gradients.\"",
+  "main": "dist/js/neat-gradients.cjs.js",
+  "module": "dist/js/neat-gradients.esm.js",
+  "browser": "dist/js/neat-gradients.umd.js",
+  "exports": {
+    "import": "./dist/js/neat-gradients.esm.js",
+    "require": "./dist/js/neat-gradients.cjs.js"
+  },
+  "files": [
+    "dist/js/*",
+    "dist/css/neat-gradients.css"
+  ],
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "build-css": "sass src/neat-animated-gradients.scss dist/css/neat-animated-gradients.css --style expanded && sass src/neat-animated-gradients.scss dist/css/neat-animated-gradients.min.css --style compressed",
+    "watch-css": "sass --watch src/neat-animated-gradients.scss:dist/css/neat-animated-gradients.css",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build-js": "rollup -c",
+    "build": "npm-run-all build-css build-js"
+  },
+  "type": "module",
+  "keywords": [
+    "gradients",
+    "animation",
+    "JavaScript"
+  ],
+  "author": "Nitish Kumar",
+  "license": "MIT",
+  "devDependencies": {
+    "@rollup/plugin-babel": "^6.0.4",
+    "@rollup/plugin-commonjs": "^28.0.2",
+    "@rollup/plugin-node-resolve": "^16.0.0",
+    "@rollup/plugin-replace": "^6.0.2",
+    "@rollup/plugin-terser": "^0.4.4",
+    "chai": "^5.1.2",
+    "mocha": "^10.8.2",
+    "npm-run-all": "^4.1.5",
+    "rollup": "^4.29.1",
+    "sass": "^1.83.0"
+  }
+}

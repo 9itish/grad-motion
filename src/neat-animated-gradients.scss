@@ -1,0 +1,52 @@
+@use "sass:string";
+
+.ngrad-wrapper, .ngrad-background, .ngrad-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.ngrad-wrapper {
+    overflow: hidden;
+    z-index: -1;
+}
+
+.ngrad-overlay {
+    background: var(--bg-string);
+}
+
+@each $shorty in ( 
+  'lr', 'rl', 'tb', 'bt'
+) {
+  $up: string.to-upper-case($shorty);
+  .nbg-move-#{$shorty} {
+    animation: move#{$up} var(--anim-duration) linear infinite;
+
+    &.ngrad-big {
+        animation: move#{$up}Big var(--anim-duration) linear infinite;
+    }
+  }
+}
+
+
+@each $name, $direction, $from, $to in ( 
+  "LR" 'X' -50% 0%, 
+  "LRBig" 'X' -90% 0%, 
+  'RL' 'X' 0% -50%, 
+  'RLBig' 'X' 0% -90%,
+  'TB' 'Y' -50% 0%, 
+  'TBBig' 'Y' -90% 0%, 
+  'BT' 'Y' 0% -50%, 
+  'BTBig' 'Y' 0% -90%
+) {
+  @keyframes move#{$name} {
+    from {
+      transform: translate#{$direction}(#{$from});
+    }
+    to {
+      transform: translate#{$direction}(#{$to});
+    }
+  }
+}

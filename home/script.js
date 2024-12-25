@@ -16,14 +16,14 @@ let tickSpeeds = [1, 2, 4];
 function applyGradientToCards(gradientSettings, gradientType) {
 
   const gradientClasses = {
-    'NeatLinear': NeatLinear,
-    'NeatThreeTriangles': NeatThreeTriangles,
+    'Linear':  NeatAnimatedGradient.Linear,
+    'ThreeTriangles':  NeatAnimatedGradient.ThreeTriangles,
     // 'adjacentTriangles': NeatAdjacentTriangles,
-    'zigZag': NeatZigZag,
-    'NeatUpDownTriangles': NeatUpDownTriangles,
-    'NeatPolkaDots': NeatPolkaDots,
-    'bricks': NeatBricks,
-    'NeatAbstract': NeatAbstract
+    'ZigZag':  NeatAnimatedGradient.ZigZag,
+    'UpDownTriangles':  NeatAnimatedGradient.UpDownTriangles,
+    'PolkaDots':  NeatAnimatedGradient.PolkaDots,
+    'Bricks':  NeatAnimatedGradient.Bricks,
+    'Abstract':  NeatAnimatedGradient.Abstract
   }
 
   let idx = 0;
@@ -51,12 +51,12 @@ function applyGradientToCards(gradientSettings, gradientType) {
       palette = [color.hex, color.adjustBrightness(-20)];
     }
 
-    if(gradientType == 'NeatLinear' || gradientType == 'NeatAbstract') {
+    if(gradientType == 'Linear' || gradientType == 'Abstract') {
       palette = [];
 
       color = new Colorful(Colorful.aHex);
 
-      if(gradientType == 'NeatAbstract') {
+      if(gradientType == 'Abstract') {
         color = new Colorful(Colorful.getRandomPreferredColor('saturated'));
       }
 
@@ -77,18 +77,18 @@ function applyGradientToCards(gradientSettings, gradientType) {
       }
     }
 
-    if(gradientType == 'NeatPolkaDots' && gradientSetting.rings && !gradientSetting.triColor) {
+    if(gradientType == 'PolkaDots' && gradientSetting.rings && !gradientSetting.triColor) {
       color = new Colorful(Colorful.aHex);
       palette = [...color.analogous];
     }
 
-    if(gradientType == "bricks" && gradientSetting.quadColors) {
+    if(gradientType == "Bricks" && gradientSetting.quadColors) {
       color = new Colorful(Colorful.aHex);
       colorB = new Colorful(Colorful.aHex);
       palette = [color.adjustBrightness(-20), color.hex, colorB.adjustBrightness(-20), colorB.hex];
     }
 
-    if((gradientType == "NeatUpDownTriangles" && gradientSetting.variant == "stars") || (gradientType == "NeatPolkaDots" && idx == 7)) {
+    if((gradientType == "UpDownTriangles" && gradientSetting.variant == "stars") || (gradientType == "PolkaDots" && idx == 7)) {
       palette = [color.hex];
     }
 
@@ -102,7 +102,7 @@ function applyGradientToCards(gradientSettings, gradientType) {
       tickSpeed: tickSpeed,
     });
 
-    if (!isArrayOfArrays(palette)) {
+    if (!NeatAnimatedGradient.isArrayOfArrays(palette)) {
       boxElems[idx].nextElementSibling.querySelector(
       "span.colors"
     ).innerHTML = `['${palette.join("', '")}']`;
@@ -128,7 +128,7 @@ function applyGradientToCards(gradientSettings, gradientType) {
     let paletteElem =
       boxElems[idx].nextElementSibling.querySelector(".palette");
 
-    if (!isArrayOfArrays(palette)) {
+    if (!NeatAnimatedGradient.isArrayOfArrays(palette)) {
       for (pColor of palette) {
         const span = document.createElement("span");
         span.style.backgroundColor = pColor;
@@ -207,12 +207,12 @@ function updateColorForCard(index) {
     ];
   }
 
-  if(gradientBackgrounds[index].gradientType() == 'NeatLinear' || gradientBackgrounds[index].gradientType() == 'NeatAbstract') {
+  if(gradientBackgrounds[index].gradientType() == 'Linear' || gradientBackgrounds[index].gradientType() == 'Abstract') {
     palette = [];
 
     color = new Colorful(Colorful.aHex);
 
-    if(gradientBackgrounds[index].gradientType() == 'NeatAbstract') {
+    if(gradientBackgrounds[index].gradientType() == 'Abstract') {
       color = new Colorful(Colorful.getRandomPreferredColor('saturated'));
     }
 
@@ -239,7 +239,7 @@ function updateColorForCard(index) {
     palette = [color.hex];
   }
 
-  if(gradientBackgrounds[index].gradientType() == 'NeatPolkaDots' &&  gradientBackgrounds[index].styleOptions.rings && !gradientBackgrounds[index].styleOptions.triColor) {
+  if(gradientBackgrounds[index].gradientType() == 'PolkaDots' &&  gradientBackgrounds[index].styleOptions.rings && !gradientBackgrounds[index].styleOptions.triColor) {
     
     color = new Colorful(Colorful.aHex);
     palette = [...color.analogous];
@@ -250,7 +250,7 @@ function updateColorForCard(index) {
 
   let idx = 0;
 
-  if (!isArrayOfArrays(palette)) {
+  if (!NeatAnimatedGradient.isArrayOfArrays(palette)) {
     for (pColor of palette) {
       paletteSpanElem[idx].style.backgroundColor = pColor;
       idx += 1;

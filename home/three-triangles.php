@@ -7,6 +7,7 @@
     <title>Long gradientObject</title>
     <link rel="stylesheet" href="../../css/layout.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="../dist/css/neat-animated-gradients.min.css">
     <link rel="stylesheet" href="styles.css">
     <style>
         div.box h1 span {
@@ -413,8 +414,8 @@ gradientObject.animateGradient();</code></pre>
             </div>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/gh/9itish/colorful@latest/src/colorful.js"></script>
-    <script src="../neat-gradient.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/9itish/colorful@1.1.4/dist/colorful.min.js"></script>
+    <script src="../dist/js/neat-gradient.min.js"></script>
     <script src="script.js"></script>
     <script>
         let gradientSettings = [{},
@@ -487,7 +488,7 @@ gradientObject.animateGradient();</code></pre>
             }
         ];
 
-        applyGradientToCards(gradientSettings, 'NeatThreeTriangles');
+        applyGradientToCards(gradientSettings, 'ThreeTriangles');
 
         
     </script>
