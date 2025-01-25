@@ -1,7 +1,7 @@
-import { NeatAnimatedGradient } from "../base/NeatAnimatedGradient.js";
+import { GradMotion } from "../base/GradMotion.js";
 import { setUpGradientColors, isArrayOfArrays, clampValue } from "../utils/helpers.js";
 
-export class ZigZag extends NeatAnimatedGradient {
+export class ZigZag extends GradMotion {
   constructor(config) {
     const { styleOptions = {} } = config;
 
@@ -82,11 +82,11 @@ export class ZigZag extends NeatAnimatedGradient {
     } else {
       backgroundDiv.style.setProperty(
         `--first-stop`,
-        `calc(var(--tick-sin) * ${bandWidth}%)`
+        `calc(${bandWidth}%)`
       );
       backgroundDiv.style.setProperty(
         `--second-stop`,
-        `calc(var(--tick-sin) * ${bandWidth + 0.1}%)`
+        `calc(${bandWidth + 0.1}%)`
       );
     }
 

@@ -5,30 +5,30 @@ import babel from '@rollup/plugin-babel';
 import terser from '@rollup/plugin-terser';
 
 export default defineConfig({
-  input: './src/neat-gradient.js', // Entry point
+  input: './src/grad-motion.js', // Entry point
   output: [
     {
-      file: 'dist/js/neat-gradient.cjs.js',
+      file: 'dist/js/grad-motion.cjs.js',
       format: 'cjs', // CommonJS
     },
     {
-      file: 'dist/js/neat-gradient.esm.js',
+      file: 'dist/js/grad-motion.esm.js',
       format: 'esm', // ES Modules
     },
     {
-      file: 'dist/js/neat-gradient.umd.js',
+      file: 'dist/js/grad-motion.umd.js',
       format: 'umd', // Universal Module Definition
-      name: 'NeatAnimatedGradient', // Global name for UMD builds
+      name: 'GradMotion', // Global name for UMD builds
     },
     {
-      file: 'dist/js/neat-gradient.js',
+      file: 'dist/js/grad-motion.js',
       format: 'iife', // IIFE format (browser-specific)
-      name: 'NeatAnimatedGradient', // Global name for the IIFE
+      name: 'GradMotion', // Global name for the IIFE
     },
     {
-      file: 'dist/js/neat-gradient.min.js',
+      file: 'dist/js/grad-motion.min.js',
       format: 'iife', // IIFE format (browser-specific)
-      name: 'NeatAnimatedGradient', // Global name for the IIFE
+      name: 'GradMotion', // Global name for the IIFE
       plugins: [terser()]
     }
   ],

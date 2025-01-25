@@ -1,6 +1,6 @@
 import { setUpGradientColors, isArrayOfArrays, clampValue } from "../utils/helpers.js";
 
-class NeatAnimatedGradient {
+class GradMotion {
   #element;
   #colors;
   #styleOptions;
@@ -11,7 +11,7 @@ class NeatAnimatedGradient {
   #ticks;
 
   constructor({ element, colors, styleOptions, tickSpeed, overlay, classes }) {
-    if (new.target === NeatAnimatedGradient) {
+    if (new.target === GradMotion) {
       throw new Error(
         "Cannot instantiate an abstract class directly. Please extend this class and implement the required methods."
       );
@@ -355,4 +355,4 @@ class NeatAnimatedGradient {
   }
 }
 
-export { NeatAnimatedGradient };
+export { GradMotion };

@@ -1,4 +1,4 @@
-var NeatAnimatedGradient = (function (exports) {
+var GradMotion = (function (exports) {
   'use strict';
 
   function clampValue(val, min, max) {
@@ -18,7 +18,7 @@ var NeatAnimatedGradient = (function (exports) {
     return gradientColors;
   }
 
-  class NeatAnimatedGradient {
+  class GradMotion {
     #element;
     #colors;
     #styleOptions;
@@ -34,7 +34,7 @@ var NeatAnimatedGradient = (function (exports) {
       overlay,
       classes
     }) {
-      if (new.target === NeatAnimatedGradient) {
+      if (new.target === GradMotion) {
         throw new Error("Cannot instantiate an abstract class directly. Please extend this class and implement the required methods.");
       }
       this.#element = element;
@@ -243,7 +243,7 @@ var NeatAnimatedGradient = (function (exports) {
     }
   }
 
-  class Abstract extends NeatAnimatedGradient {
+  class Abstract extends GradMotion {
     constructor(config) {
       const {
         styleOptions = {}
@@ -280,7 +280,7 @@ var NeatAnimatedGradient = (function (exports) {
     }
   }
 
-  class Bricks extends NeatAnimatedGradient {
+  class Bricks extends GradMotion {
     constructor(config) {
       const {
         styleOptions = {}
@@ -317,7 +317,7 @@ var NeatAnimatedGradient = (function (exports) {
     }
   }
 
-  class Linear extends NeatAnimatedGradient {
+  class Linear extends GradMotion {
     constructor(config) {
       // First, we get styleOptions form the passed configuration.
       const {
@@ -358,7 +358,7 @@ var NeatAnimatedGradient = (function (exports) {
     }
   }
 
-  class PolkaDots extends NeatAnimatedGradient {
+  class PolkaDots extends GradMotion {
     constructor(config) {
       const {
         styleOptions = {}
@@ -423,7 +423,7 @@ var NeatAnimatedGradient = (function (exports) {
     }
   }
 
-  class ThreeTriangles extends NeatAnimatedGradient {
+  class ThreeTriangles extends GradMotion {
     constructor(config) {
       const {
         styleOptions = {}
@@ -492,7 +492,7 @@ var NeatAnimatedGradient = (function (exports) {
     }
   }
 
-  class UpDownTriangles extends NeatAnimatedGradient {
+  class UpDownTriangles extends GradMotion {
     constructor(config) {
       const {
         styleOptions = {}
@@ -551,7 +551,7 @@ var NeatAnimatedGradient = (function (exports) {
     }
   }
 
-  class ZigZag extends NeatAnimatedGradient {
+  class ZigZag extends GradMotion {
     constructor(config) {
       const {
         styleOptions = {}
@@ -605,8 +605,8 @@ var NeatAnimatedGradient = (function (exports) {
         backgroundDiv.style.setProperty(`--first-stop`, `calc(var(--tick-sin) * ${bandWidth}% + 25%)`);
         backgroundDiv.style.setProperty(`--second-stop`, `calc(var(--tick-sin) * ${bandWidth + 0.1}% + 25%)`);
       } else {
-        backgroundDiv.style.setProperty(`--first-stop`, `calc(var(--tick-sin) * ${bandWidth}%)`);
-        backgroundDiv.style.setProperty(`--second-stop`, `calc(var(--tick-sin) * ${bandWidth + 0.1}%)`);
+        backgroundDiv.style.setProperty(`--first-stop`, `calc(${bandWidth}%)`);
+        backgroundDiv.style.setProperty(`--second-stop`, `calc(${bandWidth + 0.1}%)`);
       }
       if (!triColor) {
         gradientString += `linear-gradient(135deg, ${gradientColors[1]} var(--first-stop), transparent var(--second-stop)) ${bgPositions[0]}, linear-gradient(225deg, ${gradientColors[1]} var(--first-stop), transparent var(--second-stop)) ${bgPositions[1]}, linear-gradient(315deg, ${gradientColors[1]} var(--first-stop), transparent var(--second-stop)) ${bgPositions[2]}, linear-gradient(45deg, ${gradientColors[1]} var(--first-stop), transparent var(--second-stop)) ${bgPositions[3]}`;
@@ -624,8 +624,8 @@ var NeatAnimatedGradient = (function (exports) {
 
   exports.Abstract = Abstract;
   exports.Bricks = Bricks;
+  exports.GradMotion = GradMotion;
   exports.Linear = Linear;
-  exports.NeatAnimatedGradient = NeatAnimatedGradient;
   exports.PolkaDots = PolkaDots;
   exports.ThreeTriangles = ThreeTriangles;
   exports.UpDownTriangles = UpDownTriangles;

@@ -1,7 +1,7 @@
-import { NeatAnimatedGradient } from "../base/NeatAnimatedGradient.js";
+import { GradMotion } from "../base/GradMotion.js";
 import { setUpGradientColors, isArrayOfArrays, clampValue } from "../utils/helpers.js";
 
-export class Abstract extends NeatAnimatedGradient {
+export class Abstract extends GradMotion {
   constructor(config) {
     const { styleOptions = {} } = config;
 

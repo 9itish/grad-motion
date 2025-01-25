@@ -1,7 +1,7 @@
-import { NeatAnimatedGradient } from "../base/NeatAnimatedGradient.js";
+import { GradMotion } from "../base/GradMotion.js";
 import { setUpGradientColors, isArrayOfArrays, clampValue } from "../utils/helpers.js";
 
-export class PolkaDots extends NeatAnimatedGradient {
+export class PolkaDots extends GradMotion {
   constructor(config) {
     const { styleOptions = {} } = config;
 

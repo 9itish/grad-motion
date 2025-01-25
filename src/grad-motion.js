@@ -1,7 +1,7 @@
 // neat-gradients.js
 
 // Export the base class
-export { NeatAnimatedGradient } from './base/NeatAnimatedGradient.js';
+export { GradMotion } from './base/GradMotion.js';
 
 // Export all gradient subclasses
 export { Abstract } from './gradients/Abstract.js';

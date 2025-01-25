@@ -1,24 +1,24 @@
 {
-  "name": "neat-gradients",
+  "name": "grad-motion",
   "version": "1.0.0",
   "description": "\"A JavaScript library to help you create animated background patterns using gradients.\"",
-  "main": "dist/js/neat-gradients.cjs.js",
-  "module": "dist/js/neat-gradients.esm.js",
-  "browser": "dist/js/neat-gradients.umd.js",
+  "main": "dist/js/grad-motion.cjs.js",
+  "module": "dist/js/grad-motion.esm.js",
+  "browser": "dist/js/grad-motion.umd.js",
   "exports": {
-    "import": "./dist/js/neat-gradients.esm.js",
-    "require": "./dist/js/neat-gradients.cjs.js"
+    "import": "./dist/js/grad-motion.esm.js",
+    "require": "./dist/js/grad-motion.cjs.js"
   },
   "files": [
     "dist/js/*",
-    "dist/css/neat-gradients.css"
+    "dist/css/grad-motion.css"
   ],
   "directories": {
     "test": "tests"
   },
   "scripts": {
-    "build-css": "sass src/neat-animated-gradients.scss dist/css/neat-animated-gradients.css --style expanded && sass src/neat-animated-gradients.scss dist/css/neat-animated-gradients.min.css --style compressed",
-    "watch-css": "sass --watch src/neat-animated-gradients.scss:dist/css/neat-animated-gradients.css",
+    "build-css": "sass src/grad-motion.scss dist/css/grad-motion.css --style expanded && sass src/grad-motion.scss dist/css/grad-motion.min.css --style compressed",
+    "watch-css": "sass --watch src/grad-motion.scss:dist/css/grad-motion.css",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build-js": "rollup -c",
     "build": "npm-run-all build-css build-js"

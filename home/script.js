@@ -16,14 +16,14 @@ let tickSpeeds = [1, 2, 4];
 function applyGradientToCards(gradientSettings, gradientType) {
 
   const gradientClasses = {
-    'Linear':  NeatAnimatedGradient.Linear,
-    'ThreeTriangles':  NeatAnimatedGradient.ThreeTriangles,
+    'Linear':  GradMotion.Linear,
+    'ThreeTriangles':  GradMotion.ThreeTriangles,
     // 'adjacentTriangles': NeatAdjacentTriangles,
-    'ZigZag':  NeatAnimatedGradient.ZigZag,
-    'UpDownTriangles':  NeatAnimatedGradient.UpDownTriangles,
-    'PolkaDots':  NeatAnimatedGradient.PolkaDots,
-    'Bricks':  NeatAnimatedGradient.Bricks,
-    'Abstract':  NeatAnimatedGradient.Abstract
+    'ZigZag':  GradMotion.ZigZag,
+    'UpDownTriangles':  GradMotion.UpDownTriangles,
+    'PolkaDots':  GradMotion.PolkaDots,
+    'Bricks':  GradMotion.Bricks,
+    'Abstract':  GradMotion.Abstract
   }
 
   let idx = 0;
@@ -102,7 +102,7 @@ function applyGradientToCards(gradientSettings, gradientType) {
       tickSpeed: tickSpeed,
     });
 
-    if (!NeatAnimatedGradient.isArrayOfArrays(palette)) {
+    if (!GradMotion.isArrayOfArrays(palette)) {
       boxElems[idx].nextElementSibling.querySelector(
       "span.colors"
     ).innerHTML = `['${palette.join("', '")}']`;
@@ -128,7 +128,7 @@ function applyGradientToCards(gradientSettings, gradientType) {
     let paletteElem =
       boxElems[idx].nextElementSibling.querySelector(".palette");
 
-    if (!NeatAnimatedGradient.isArrayOfArrays(palette)) {
+    if (!GradMotion.isArrayOfArrays(palette)) {
       for (pColor of palette) {
         const span = document.createElement("span");
         span.style.backgroundColor = pColor;
@@ -250,7 +250,7 @@ function updateColorForCard(index) {
 
   let idx = 0;
 
-  if (!NeatAnimatedGradient.isArrayOfArrays(palette)) {
+  if (!GradMotion.isArrayOfArrays(palette)) {
     for (pColor of palette) {
       paletteSpanElem[idx].style.backgroundColor = pColor;
       idx += 1;
